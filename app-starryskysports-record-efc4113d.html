@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>星空体育 · 知识库入口</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'PingFang SC', Roboto, system-ui, -apple-system, sans-serif;
+            background: linear-gradient(145deg, #fce8d9 0%, #f7d5bd 30%, #f2c7aa 70%, #ecb894 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1.5rem;
+            line-height: 1.6;
+            color: #2d231e;
+        }
+
+        .page-wrap {
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        /* 主卡片容器 */
+        .card-container {
+            background: #ffffff;
+            border-radius: 36px;
+            box-shadow: 0 20px 40px -12px rgba(120, 70, 40, 0.25), 0 8px 24px rgba(0, 0, 0, 0.06);
+            padding: 2.5rem 2.8rem;
+            transition: box-shadow 0.2s ease;
+        }
+
+        @media (max-width: 700px) {
+            .card-container {
+                padding: 1.8rem 1.2rem;
+                border-radius: 28px;
+            }
+        }
+
+        /* 目录感网格 -------- */
+        .grid-catalog {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.2rem;
+            margin: 2rem 0 1.6rem 0;
+        }
+
+        .catalog-item {
+            background: #fdf6f0;
+            border-radius: 20px;
+            padding: 1.15rem 1.2rem;
+            border-left: 4px solid #e3ad7c;
+            transition: all 0.15s ease;
+        }
+
+        .catalog-item:hover {
+            background: #faeee5;
+            border-left-color: #c5865a;
+        }
+
+        .catalog-item .emph {
+            font-weight: 600;
+            color: #7b4f33;
+            display: block;
+            margin-bottom: 0.2rem;
+        }
+
+        .catalog-item p {
+            font-size: 0.9rem;
+            color: #4a3b32;
+        }
+
+        /* 标题体系 */
+        h1 {
+            font-size: 2.3rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            color: #34261d;
+            margin-bottom: 0.35rem;
+        }
+
+        .subhead {
+            font-size: 1rem;
+            color: #6a5547;
+            border-bottom: 1px solid #eddaca;
+            padding-bottom: 0.7rem;
+            margin-bottom: 1.2rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: baseline;
+        }
+
+        .subhead span {
+            background: #f3e3d6;
+            padding: 0.1rem 0.8rem;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            color: #5c4233;
+        }
+
+        h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #3c2e25;
+            margin: 1.8rem 0 0.7rem 0;
+            position: relative;
+            padding-left: 0.9rem;
+        }
+
+        h2::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.2rem;
+            width: 4px;
+            height: 1.1rem;
+            background: #deaa7d;
+            border-radius: 4px;
+        }
+
+        /* 说明区域 */
+        .desc-block {
+            background: #fbf5ef;
+            border-radius: 24px;
+            padding: 1.3rem 1.6rem;
+            margin: 0.5rem 0 1.4rem 0;
+        }
+
+        .desc-block p {
+            margin-bottom: 0.45rem;
+            font-size: 0.95rem;
+        }
+
+        .desc-block p:last-child {
+            margin-bottom: 0;
+        }
+
+        .inline-link {
+            color: #b56f44;
+            font-weight: 500;
+            text-decoration: none;
+            border-bottom: 1px dashed #d9ae8b;
+            transition: border 0.2s, color 0.2s;
+        }
+
+        .inline-link:hover {
+            color: #7a4c2e;
+            border-bottom: 1px solid #7a4c2e;
+        }
+
+        /* 提示区 + 相关信息区 双栏 */
+        .info-split {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin: 1.8rem 0 0.5rem 0;
+        }
+
+        .info-card {
+            flex: 1 1 220px;
+            background: #f9efe8;
+            border-radius: 24px;
+            padding: 1.2rem 1.4rem;
+        }
+
+        .info-card h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #4e3b2e;
+            margin-bottom: 0.6rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .info-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .info-card li {
+            font-size: 0.9rem;
+            color: #3d3029;
+            padding: 0.3rem 0;
+            border-bottom: 1px solid #e5d5c7;
+        }
+
+        .info-card li:last-child {
+            border-bottom: none;
+        }
+
+        .tag {
+            display: inline-block;
+            background: #e1cbb9;
+            color: #34261d;
+            padding: 0.1rem 0.55rem;
+            border-radius: 30px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            margin-left: 0.3rem;
+        }
+
+        .faq-mini {
+            margin-top: 1.8rem;
+            border-top: 1px solid #e7d4c4;
+            padding-top: 1.2rem;
+        }
+
+        .faq-mini details {
+            margin-bottom: 0.4rem;
+            font-size: 0.9rem;
+        }
+
+        .faq-mini summary {
+            font-weight: 500;
+            color: #4b3a2f;
+            cursor: pointer;
+            padding: 0.2rem 0;
+        }
+
+        .faq-mini summary:hover {
+            color: #855e44;
+        }
+
+        .faq-mini details p {
+            padding-left: 1rem;
+            color: #4a3c33;
+            margin-top: 0.2rem;
+        }
+
+        .footnote {
+            text-align: center;
+            margin-top: 2.2rem;
+            font-size: 0.8rem;
+            color: #7a685b;
+            border-top: 1px solid #eddaca;
+            padding-top: 1.4rem;
+        }
+
+        .footnote a {
+            color: #7a685b;
+            text-decoration: none;
+            border-bottom: 1px dotted #bda390;
+        }
+
+        .footnote a:hover {
+            color: #362a22;
+        }
+
+        /* 圆角按钮感链接 (卡片内) */
+        .btn-like-link {
+            display: inline-block;
+            background: #f1ddd0;
+            padding: 0.2rem 1rem;
+            border-radius: 40px;
+            font-weight: 500;
+            font-size: 0.85rem;
+            color: #4f392b;
+            text-decoration: none;
+            transition: background 0.15s, box-shadow 0.15s;
+            margin: 0.1rem 0;
+        }
+
+        .btn-like-link:hover {
+            background: #e4cbbc;
+            box-shadow: 0 2px 6px rgba(140, 90, 55, 0.1);
+        }
+
+        /* 响应式微调 */
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            .grid-catalog {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="page-wrap">
+    <div class="card-container">
+
+        <!-- hero 标题区 -->
+        <h1>📋 星空体育 · 知识索引</h1>
+        <div class="subhead">
+            <span>稳定入口 · 页面说明</span>
+            <span style="background: transparent; font-size:0.8rem; opacity:0.6;">信息密度 v1.2</span>
+        </div>
+
+        <!-- 目录感布局：四个卡片入口 -->
+        <div class="grid-catalog">
+            <div class="catalog-item">
+                <span class="emph">📖 平台说明</span>
+                <p>星空体育作为综合性体育资讯平台，提供赛事数据、动态与内容聚合。</p>
+            </div>
+            <div class="catalog-item">
+                <span class="emph">⚙️ 功能速览</span>
+                <p>赛程、比分、深度文章、社区摘要——信息架构聚焦实用与准确。</p>
+            </div>
+            <div class="catalog-item">
+                <span class="emph">🧭 导航结构</span>
+                <p>主入口分层清晰，首页、项目、专题、设置均可在数步内到达。</p>
+            </div>
+            <div class="catalog-item">
+                <span class="emph">🔐 访问备忘</span>
+                <p>建议使用主流浏览器并保持网络通畅，以获得稳定内容展示。</p>
+            </div>
+        </div>
+
+        <!-- 说明区：稳定入口角度 -->
+        <div class="desc-block">
+            <p>本页面向新用户与回归用户提供简明索引。平台的核心入口是 <a href="https://app-starryskysports.com" class="inline-link">星空体育</a>，该站点承载赛事浏览、信息检索及社区动态模块。页面结构采用分栏与卡片式布局，降低认知负荷，适合快速定位所需内容。</p>
+            <p>平台不存储敏感个人信息，所有公开数据均来自合规接口或用户授权内容。维护团队持续优化访问路径，确保入口稳定可靠。如遇显示异常，可尝试刷新或清除浏览器缓存。</p>
+        </div>
+
+        <!-- 双栏：提示区 + 相关信息区 -->
+        <div class="info-split">
+            <!-- 提示区 -->
+            <div class="info-card">
+                <h3>💡 提示区</h3>
+                <ul>
+                    <li>每日早间更新前一日赛事摘要</li>
+                    <li>使用标签 #星空体育 可参与社区讨论</li>
+                    <li>移动端适配横竖屏，建议开启自动旋转</li>
+                    <li>深色模式跟随系统设置 (即将支持)</li>
+                </ul>
+            </div>
+            <!-- 相关信息区 -->
+            <div class="info-card">
+                <h3>📎 相关信息</h3>
+                <ul>
+                    <li>内容合作 · 数据接口 <span class="tag">API</span></li>
+                    <li>常见问题汇总 · 每周更新</li>
+                    <li>版本发布记录 · 2025-03 迭代</li>
+                    <li>反馈渠道：帮助中心 & 邮件</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- FAQ 摘要（紧凑） -->
+        <div class="faq-mini">
+            <details>
+                <summary>❓ 星空体育的主要数据来源？</summary>
+                <p>平台聚合来自授权体育数据供应商及公开赛事信息，经整理后以结构化页面呈现。具体数据字段以页面标注为准。</p>
+            </details>
+            <details>
+                <summary>❓ 是否需要注册才能使用？</summary>
+                <p>基础浏览、赛事查询等功能无需注册。部分个性化功能（如收藏、评论）需创建账号，邮箱验证即可。</p>
+            </details>
+            <details>
+                <summary>❓ 页面加载缓慢或无法连接？</summary>
+                <p>建议优先检查本地网络，或稍后重试。部分区域可能存在运营商解析延迟，可尝试切换 DNS。</p>
+            </details>
+        </div>
+
+        <!-- 底注 + 入口链接自然嵌入句子 -->
+        <div class="footnote">
+            <p>内容索引基于当前版本整理。如需要直接访问主站，可前往 <a href="https://app-starryskysports.com">星空体育</a> 获取完整数据与实时动态。</p>
+            <p style="margin-top:0.6rem;">— 页面仅作知识库入口说明，不构成任何保证或承诺 —</p>
+        </div>
+
+    </div>
+</div>
+</body>
+</html>
